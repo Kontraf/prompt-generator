@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Craft</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            margin: 5px 0 0 0;
+            color: #bae6fd;
+            font-size: 1rem;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex-grow: 1;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-card {
+            background-color: #1e293b;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid #334155;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #38bdf8;
+            font-size: 0.95rem;
+        }
+
+        select, textarea {
+            background-color: #0f172a;
+            color: #f8fafc;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, textarea:focus {
+            border-color: #38bdf8;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            background-color: #38bdf8;
+            color: #0f172a;
+            border: none;
+            padding: 14px 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #0ea5e9;
+            color: white;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Output Section */
+        .output-container {
+            margin-top: 30px;
+            display: none; /* Κρυφό αρχικά, θα εμφανιστεί με JS */
+            background-color: #0f172a;
+            border: 1px dashed #38bdf8;
+            border-radius: 8px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .output-title {
+            color: #38bdf8;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .copy-btn {
+            background-color: #334155;
+            color: #f8fafc;
+            border: 1px solid #475569;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .copy-btn:hover {
+            background-color: #475569;
+        }
+
+        #outputPrompt {
+            white-space: pre-wrap;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+            margin: 0;
+        }
+
+        footer {
+            background-color: #0f172a;
+            color: #64748b;
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #1e293b;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>⚡ AI Prompt Craft</h1>
+        <p>Create high-quality, structured prompts for ChatGPT, Gemini & Claude</p>
+    </header>
+
+    <div class="container">
+        <div class="form-card">
+            
+            <!-- Επιλογή Ρόλου -->
+            <div class="form-group">
+                <label for="roleSelect">1. Who should the AI act as? (Role)</label>
+                <select id="roleSelect">
+                    <option value="expert-coder">💻 Expert Software Engineer (For clean, efficient & documented code)</option>
+                    <option value="debate-coach">🗣️ World-Class Debate Coach (For argument analysis, rebuttals & strategy)</option>
+                    <option value="tech-writer">✍️ Technical Writer (For clear, well-structured documentation)</option>
+                    <option value="math-tutor">📐 STEM University Professor (For step-by-step educational explanations)</option>
+                    <option value="general">🤖 General Helpful Assistant</option>
+                </select>
+            </div>
+
+            <!-- Επιλογή Ύφους -->
+            <div class="form-group">
+                <label for="toneSelect">2. Output Tone & Style</label>
+                <select id="toneSelect">
+                    <option value="professional">Professional, formal and direct</option>
+                    <option value="educational">Educational, explaining "why" behind concepts</option>
+                    <option value="simple">Extremely simple, "Explain Like I'm 5" (ELI5)</option>
+                    <option value="creative">Creative, engaging and out-of-the-box</option>
+                </select>
+            </div>
+
+            <!-- Πλαίσιο Εισαγωγής Θέματος -->
+            <div class="form-group">
+                <label for="taskInput">3. What do you want the AI to do? (Your Task)</label>
+                <textarea id="taskInput" placeholder="Describe your request here (e.g., 'Explain the difference between AC and DC electricity', 'Write a python script to parse a JSON file')"></textarea>
+            </div>
+
+            <!-- Κουμπί Παραγωγής -->
+            <button class="btn" onclick="generatePrompt()">Generate Super-Prompt 🚀</button>
+
+            <!-- Περιοχή Εμφάνισης Αποτελέσματος -->
+            <div class="output-container" id="outputSection">
+                <div class="output-header">
+                    <span class="output-title">Your Generated Prompt:</span>
+                    <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">Copy Prompt</button>
+                </div>
+                <p id="outputPrompt"></p>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>Created by George Kontrafouris[cite: 1] | Powered by engineering logic 💻</p>
+    </footer>
+
+    <script>
+        // Η βάση δεδομένων με τα System Prompts ανάλογα με τον ρόλο
+        const systemPrompts = {
+            "expert-coder": "You are an elite Software Engineer with decades of experience. Your code is production-ready, highly optimized, secure, and adheres to best practices. Always include concise comments and explain your logic.",
+            "debate-coach": "You are a world-class Debate Coach and tournament-winning adjudicator. Analyze inputs through a critical lens. Identify logical fallacies, construct strong counter-arguments, and offer tactical advice on strategy and persuasion.",
+            "tech-writer": "You are a professional Technical Writer. Your job is to make complex concepts incredibly easy to read. Use clear headings, bullet points, bold text for key terms, and maintain a highly structured layout.",
+            "math-tutor": "You are an enthusiastic University Professor in STEM. You excel at breaking down complex engineering, mathematical, or scientific concepts into clear, logical, step-by-step explanations, encouraging deep understanding.",
+            "general": "You are a highly capable, objective, and helpful AI assistant."
+        };
+
+        // Η βάση δεδομένων με τις οδηγίες για το ύφος
+        const tonePrompts = {
+            "professional": "Maintain a highly professional, academic, and objective tone. Avoid fluff and be direct.",
+            "educational": "Adopt an educational and encouraging tone. Explain the underlying principles of the solution so the reader learns the 'why' behind it.",
+            "simple": "Explain things using extremely simple language, analogies, and zero jargon. Imagine you are explaining this to a 10-year-old.",
+            "creative": "Use an engaging, vivid, and highly creative style with interesting metaphors to deliver your response."
+        };
+
+        function generatePrompt() {
+            const role = document.getElementById('roleSelect').value;
+            const tone = document.getElementById('toneSelect').value;
+            const task = document.getElementById('taskInput').value.trim();
+
+            if (task === "") {
+                alert("Please enter a task first!");
+                return;
+            }
+
+            // Σύνθεση του τελικού prompt
+            const finalPrompt = `[SYSTEM INSTRUCTION]
+${systemPrompts[role]}
+${tonePrompts[tone]}
+
+[USER TASK]
+${task}
+
+[OUTPUT RULES]
+Deliver the response in a highly structured format matching the system instructions above.`;
+
+            // Εμφάνιση του κειμένου στην οθόνη
+            document.getElementById('outputPrompt').textContent = finalPrompt;
+            
+            // Εμφάνιση όλης της ενότητας του αποτελέσματος
+            document.getElementById('outputSection').style.display = 'block';
+            
+            // Επαναφορά του κουμπιού Copy σε περίπτωση που είχε πατηθεί πριν
+            document.getElementById('copyBtn').textContent = "Copy Prompt";
+            
+            // Ομαλό scrolling προς τα κάτω για να φανεί το αποτέλεσμα
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyToClipboard() {
+            const promptText = document.getElementById('outputPrompt').textContent;
+            
+            // Χρήση του Clipboard API του browser
+            navigator.clipboard.writeText(promptText).then(() => {
+                const copyBtn = document.getElementById('copyBtn');
+                copyBtn.textContent = "Copied! ✓";
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
