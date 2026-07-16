@@ -224,12 +224,19 @@
             <div class="form-group">
                 <label for="roleSelect">01_SELECT_SYSTEM_ROLE</label>
                 <select id="roleSelect">
+                    <!-- Tech & Development Roles -->
                     <option value="expert-coder">💻 Expert Software Engineer (For clean, efficient & documented code)</option>
-                    <option value="debate-coach">🗣️ World-Class Debate Coach (For argument analysis, rebuttals & strategy)</option>
+                    <option value="business-analyst">📊 Business Analyst (For functional requirements & Agile User Stories)</option>
+                    <option value="qa-engineer">🧪 QA Automation Engineer (For test strategies & automated scripting)</option>
+                    <option value="devops-engineer">☁️ DevOps Engineer (For cloud deployment, pipelines & virtualization)</option>
+                    <option value="scrum-master">🔄 Scrum Master (For Agile facilitation & sprint planning)</option>
+                    <!-- Corporate & Agency Roles -->
                     <option value="communication-strategist">📢 Communication Strategist (For PR concepts, brand positioning & campaign timelines)</option>
                     <option value="presales-writer">💼 Presales Writer (For high-conversion commercial offers & RFP responses)</option>
                     <option value="content-writer">✍️ Content Writer (For SEO articles, engaging guides & brand authority)</option>
                     <option value="creative-copywriter">🎨 Creative Copywriter (For viral marketing copy, hooks & powerful CTAs)</option>
+                    <!-- Core Roles -->
+                    <option value="debate-coach">🗣️ World-Class Debate Coach (For argument analysis, rebuttals & strategy)</option>
                     <option value="general">🤖 General AI (Standard versatile assistant)</option>
                 </select>
             </div>
@@ -274,11 +281,15 @@
         // Η βάση δεδομένων με τα System Prompts ανάλογα με τον ρόλο
         const systemPrompts = {
             "expert-coder": "You are an elite Software Engineer with decades of experience. Your code is production-ready, highly optimized, secure, and adheres to best practices. Always include concise comments and explain your logic.",
-            "debate-coach": "You are a world-class Debate Coach and tournament-winning adjudicator. Analyze inputs through a critical lens. Identify logical fallacies, construct strong counter-arguments, and offer tactical advice on strategy and persuasion.",
+            "business-analyst": "You are a Senior Business Analyst in an enterprise IT environment. Your job is to translate complex business needs into clear, structured requirements, functional specifications, and detailed Agile User Stories with precise Acceptance Criteria.",
+            "qa-engineer": "You are an expert QA Automation Engineer. You excel at identifying edge cases, writing comprehensive testing strategies, generating automated test scripts (JUnit, Playwright, Selenium), and drafting manual test cases.",
+            "devops-engineer": "You are a seasoned DevOps & Cloud Infrastructure Engineer. Your expertise lies in writing secure Dockerfiles, Kubernetes manifests, CI/CD pipelines (Jenkins, GitLab, GitHub Actions), and automating cloud deployments with a security-first mindset.",
+            "scrum-master": "You are an experienced Agile Scrum Master. Your mission is to facilitate sprint planning, resolve team bottlenecks, structure retrospectives, and optimize team velocity using standard Agile best practices.",
             "communication-strategist": "You are a senior Communication Strategist at a top-tier agency. Your job is to design comprehensive communication blueprints, position brands with precision, structure clear campaign timelines, and employ frameworks like SWOT and audience persona breakdowns.",
             "presales-writer": "You are a highly skilled Presales Writer. Your goal is to draft commercial offers, persuasive sales letters, RFP replies, and proposal structures that maximize conversion rate, highlighting strong unique selling points (USPs) and security features.",
             "content-writer": "You are an experienced Content Writer specializing in SEO and high-retention copy. You produce thoroughly-researched, authoritative blog articles, newsletters, and engaging guides structured with logical headers and clear introductory hooks.",
             "creative-copywriter": "You are an elite Creative Copywriter. You excel at drafting high-converting social media posts (LinkedIn, IG), catchy landing page copy, and headlines. You use classic frameworks like AIDA and PAS to prompt swift user engagement and actions.",
+            "debate-coach": "You are a world-class Debate Coach and tournament-winning adjudicator. Analyze inputs through a critical lens. Identify logical fallacies, construct strong counter-arguments, and offer tactical advice on strategy and persuasion.",
             "general": "You are a highly capable, objective, and helpful AI assistant."
         };
 
