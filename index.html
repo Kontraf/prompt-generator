@@ -3,183 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Prompt Craft - Cyber Terminal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>AI Prompt Craft // Terminal</title>
     <style>
+        :root {
+            --bg-color: #05070f;
+            --card-bg: rgba(13, 20, 38, 0.6);
+            --accent-neon: #00ffc4;
+            --accent-blue: #00d2ff;
+            --text-main: #e2e8f0;
+            --text-muted: #64748b;
+            --border-color: #1e293b;
+        }
+
         body {
             font-family: 'Courier New', Courier, monospace;
-            background-color: #05070a;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(0, 255, 196, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 210, 255, 0.05) 0px, transparent 50%);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-        .terminal-glow {
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+
+        header {
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            background: rgba(5, 7, 15, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
         }
-        /* Custom scrollbar για cyberpunk look */
-        ::-webkit-scrollbar {
-            width: 6px;
+
+        header h1 {
+            margin: 0;
+            color: var(--accent-neon);
+            text-shadow: 0 0 15px rgba(0, 255, 196, 0.4);
+            letter-spacing: 2px;
+            font-weight: 900;
+            font-size: 2.5rem;
         }
-        ::-webkit-scrollbar-track {
-            background: #090d16;
+
+        header p {
+            margin: 10px 0 0 0;
+            color: var(--accent-blue);
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(0, 210, 255, 0.3);
         }
-        ::-webkit-scrollbar-thumb {
-            background: #1e293b;
-            border-radius: 3px;
+
+        .container {
+            max-width: 750px;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex-grow: 1;
+            width: 100%;
+            box-sizing: border-box;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #38bdf8;
+
+        .form-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 35px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        select, textarea {
+            background-color: rgba(5, 7, 15, 0.8);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        select:focus, textarea:focus {
+            border-color: var(--accent-neon);
+            box-shadow: 0 0 10px rgba(0, 255, 196, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.5;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='%2300ffc4' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--accent-neon);
+            border: 1px solid var(--accent-neon);
+            padding: 16px 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            font-family: inherit;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+            box-shadow: 0 0 10px rgba(0, 255, 196, 0.1);
+        }
+
+        .btn:hover {
+            background-color: var(--accent-neon);
+            color: var(--bg-color);
+            box-shadow: 0 0 20px rgba(0, 255, 196, 0.4);
+        }
+
+        .output-container {
+            margin-top: 35px;
+            display: none;
+            background-color: rgba(5, 7, 15, 0.9);
+            border: 1px solid var(--accent-blue);
+            border-radius: 8px;
+            position: relative;
+            padding: 25px;
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.15);
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .output-title {
+            color: var(--accent-blue);
+            font-weight: bold;
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .copy-btn {
+            background-color: transparent;
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            font-family: inherit;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--accent-blue);
+            color: var(--bg-color);
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+        }
+
+        #outputPrompt {
+            white-space: pre-wrap;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.6;
+            color: #cbd5e1;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background-color: rgba(5, 7, 15, 0.9);
+            color: var(--text-muted);
+            text-align: center;
+            padding: 25px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
         }
     </style>
 </head>
-<body class="text-slate-100 min-h-screen p-6 flex items-center justify-center">
+<body>
 
-    <div class="w-full max-w-4xl bg-slate-950 border border-cyan-500/30 rounded-lg p-6 terminal-glow">
-        
-        <!-- Terminal Header -->
-        <header class="border-b border-cyan-500/20 pb-4 mb-6 flex justify-between items-center">
-            <div>
-                <h1 class="text-2xl font-bold tracking-widest text-cyan-400">⚡ AI PROMPT CRAFT v2.0</h1>
-                <p class="text-xs text-cyan-600/80 mt-1">SYSTEM_INSTRUCTION_GENERATOR // LOGGED_IN_AS: DEVELOPER</p>
-            </div>
-            <div class="flex gap-2">
-                <span class="w-3 h-3 rounded-full bg-red-500/70 inline-block"></span>
-                <span class="w-3 h-3 rounded-full bg-yellow-500/70 inline-block"></span>
-                <span class="w-3 h-3 rounded-full bg-green-500/70 inline-block"></span>
-            </div>
-        </header>
+    <header>
+        <h1>⚡ PROMPT_CRAFT.EXE</h1>
+        <p>[STATUS: ONLINE] // SYSTEM INITIALIZED</p>
+    </header>
 
-        <!-- Role Presets Selection -->
-        <section class="mb-6">
-            <label class="block text-xs font-bold text-cyan-500 uppercase tracking-wider mb-2">⚡ Select Target Role Preset</label>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <button onclick="loadPreset('strategy')" class="preset-btn border border-slate-800 hover:border-cyan-500 bg-slate-900/50 p-3 rounded text-left text-sm transition-all duration-200">
-                    <span class="text-cyan-400 font-bold block text-xs">ROLE 01 // STRATEGIST</span>
-                    Communication Strategist
-                </button>
-                <button onclick="loadPreset('presales')" class="preset-btn border border-slate-800 hover:border-cyan-500 bg-slate-900/50 p-3 rounded text-left text-sm transition-all duration-200">
-                    <span class="text-cyan-400 font-bold block text-xs">ROLE 02 // SALES</span>
-                    Presales Writer for Offers
-                </button>
-                <button onclick="loadPreset('content')" class="preset-btn border border-slate-800 hover:border-cyan-500 bg-slate-900/50 p-3 rounded text-left text-sm transition-all duration-200">
-                    <span class="text-cyan-400 font-bold block text-xs">ROLE 03 // WRITER</span>
-                    Content Writer
-                </button>
-                <button onclick="loadPreset('copy')" class="preset-btn border border-slate-800 hover:border-cyan-500 bg-slate-900/50 p-3 rounded text-left text-sm transition-all duration-200">
-                    <span class="text-cyan-400 font-bold block text-xs">ROLE 04 // CREATIVE</span>
-                    Creative Copywriter
-                </button>
-            </div>
-        </section>
+    <div class="container">
+        <div class="form-card">
 
-        <!-- Customize Inputs -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div>
-                <label class="block text-xs font-bold text-cyan-500 uppercase tracking-wider mb-2">Primary Goal / Mission</label>
-                <textarea id="goal" class="w-full h-32 bg-slate-900 border border-slate-800 rounded p-3 text-sm focus:outline-none focus:border-cyan-500 text-slate-300" placeholder="What is the main objective of this AI role?"></textarea>
+            <!-- Επιλογή Ρόλου -->
+            <div class="form-group">
+                <label for="roleSelect">01_SELECT_SYSTEM_ROLE</label>
+                <select id="roleSelect">
+                    <option value="expert-coder">💻 Expert Software Engineer (For clean, efficient & documented code)</option>
+                    <option value="debate-coach">🗣️ World-Class Debate Coach (For argument analysis, rebuttals & strategy)</option>
+                    <option value="communication-strategist">📢 Communication Strategist (For PR concepts, brand positioning & campaign timelines)</option>
+                    <option value="presales-writer">💼 Presales Writer (For high-conversion commercial offers & RFP responses)</option>
+                    <option value="content-writer">✍️ Content Writer (For SEO articles, engaging guides & brand authority)</option>
+                    <option value="creative-copywriter">🎨 Creative Copywriter (For viral marketing copy, hooks & powerful CTAs)</option>
+                    <option value="general">🤖 General AI (Standard versatile assistant)</option>
+                </select>
             </div>
-            <div>
-                <label class="block text-xs font-bold text-cyan-500 uppercase tracking-wider mb-2">Tone & Style Guidelines</label>
-                <textarea id="tone" class="w-full h-32 bg-slate-900 border border-slate-800 rounded p-3 text-sm focus:outline-none focus:border-cyan-500 text-slate-300" placeholder="Tone of voice, professional terms, what to avoid..."></textarea>
+
+            <!-- Επιλογή Ύφους -->
+            <div class="form-group">
+                <label for="toneSelect">02_CHOOSE_OUTPUT_STYLE</label>
+                <select id="toneSelect">
+                    <option value="professional">Professional, formal and direct</option>
+                    <option value="educational">Educational, explaining "why" behind concepts</option>
+                    <option value="creative">Creative, highly engaging and expressive</option>
+                    <option value="minimalist">Minimalist, straight to the point without fluff</option>
+                </select>
             </div>
+
+            <!-- Πλαίσιο Εισαγωγής Θέματος -->
+            <div class="form-group">
+                <label for="taskInput">03_INPUT_CORE_TASK</label>
+                <textarea id="taskInput" placeholder="Enter task instructions here (e.g., 'Explain the difference between AC and DC electricity', 'Write a python script to parse a JSON file')"></textarea>
+            </div>
+
+            <!-- Κουμπί Παραγωγής -->
+            <button class="btn" onclick="generatePrompt()">COMPILE_PROMPT_</button>
+
+            <!-- Περιοχή Εμφάνισης Αποτελέσματος -->
+            <div class="output-container" id="outputSection">
+                <div class="output-header">
+                    <span class="output-title">OUTPUT_BUFFER:</span>
+                    <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">COPY_TO_CLIPBOARD</button>
+                </div>
+                <p id="outputPrompt"></p>
+            </div>
+
         </div>
-
-        <!-- Generate & Output -->
-        <div class="mb-6">
-            <button onclick="compilePrompt()" class="w-full bg-cyan-500 hover:bg-cyan-600 text-slate-950 font-bold py-3 px-4 rounded tracking-wider transition duration-200 text-sm">
-                COMPILE SYSTEM INSTRUCTION_
-            </button>
-        </div>
-
-        <!-- Output Terminal -->
-        <div>
-            <div class="flex justify-between items-center mb-2">
-                <label class="text-xs font-bold text-cyan-500 uppercase tracking-wider">Generated System Prompt</label>
-                <button onclick="copyToClipboard()" class="text-xs text-cyan-400 hover:underline">Copy Prompt</button>
-            </div>
-            <textarea id="output" readonly class="w-full h-48 bg-slate-900/50 border border-cyan-500/20 rounded p-3 text-xs text-cyan-400 focus:outline-none focus:border-cyan-500 font-mono leading-relaxed" placeholder="Compiled system instructions will appear here..."></textarea>
-        </div>
-
     </div>
 
+    <footer>
+        <p>SYSTEM_DESIGN BY GEORGE KONTRAFOURIS // YEAR: 2026</p>
+    </footer>
+
     <script>
-        // Τα δεδομένα για τα 4 νέα επαγγελματικά templates
-        const presets = {
-            strategy: {
-                goal: "Develop high-level communication strategies, brand positioning concepts, and comprehensive campaign timelines for clients of a premium communication agency.",
-                tone: "Analytical, strategic, industry-authoritative, yet highly persuasive and visionary. Use marketing-agency frameworks (e.g., SWOT, target persona breakdown)."
-            },
-            presales: {
-                goal: "Write compelling, professional, and winning commercial offers, request-for-proposal (RFP) responses, and high-conversion presales proposals.",
-                tone: "Client-centric, outcome-oriented, professional, persuasive, and structured. Emphasize value proposition, security, efficiency, and clear business outcomes."
-            },
-            content: {
-                goal: "Produce high-quality, engaging, and SEO-optimized blog posts, articles, newsletters, and educational guides that build brand authority and trust.",
-                tone: "Informative, approachable, clear, and thoroughly researched. Keep formatting clean using bold text, listicles, and strong introductory hooks."
-            },
-            copy: {
-                goal: "Craft high-converting ad copy, viral social media hooks (LinkedIn, Instagram), landing page headers, and catchy marketing slogans.",
-                tone: "Creative, high-energy, emotionally-driven, and concise. Utilize copywriting frameworks (e.g., AIDA, PAS) and prioritize powerful call-to-actions (CTAs)."
-            }
+        // Η βάση δεδομένων με τα System Prompts ανάλογα με τον ρόλο
+        const systemPrompts = {
+            "expert-coder": "You are an elite Software Engineer with decades of experience. Your code is production-ready, highly optimized, secure, and adheres to best practices. Always include concise comments and explain your logic.",
+            "debate-coach": "You are a world-class Debate Coach and tournament-winning adjudicator. Analyze inputs through a critical lens. Identify logical fallacies, construct strong counter-arguments, and offer tactical advice on strategy and persuasion.",
+            "communication-strategist": "You are a senior Communication Strategist at a top-tier agency. Your job is to design comprehensive communication blueprints, position brands with precision, structure clear campaign timelines, and employ frameworks like SWOT and audience persona breakdowns.",
+            "presales-writer": "You are a highly skilled Presales Writer. Your goal is to draft commercial offers, persuasive sales letters, RFP replies, and proposal structures that maximize conversion rate, highlighting strong unique selling points (USPs) and security features.",
+            "content-writer": "You are an experienced Content Writer specializing in SEO and high-retention copy. You produce thoroughly-researched, authoritative blog articles, newsletters, and engaging guides structured with logical headers and clear introductory hooks.",
+            "creative-copywriter": "You are an elite Creative Copywriter. You excel at drafting high-converting social media posts (LinkedIn, IG), catchy landing page copy, and headlines. You use classic frameworks like AIDA and PAS to prompt swift user engagement and actions.",
+            "general": "You are a highly capable, objective, and helpful AI assistant."
         };
 
-        // Συνάρτηση για τη φόρτωση των presets στα textareas
-        function loadPreset(key) {
-            if (presets[key]) {
-                document.getElementById('goal').value = presets[key].goal;
-                document.getElementById('tone').value = presets[key].tone;
-                
-                // Οπτικό feedback στα buttons
-                document.querySelectorAll('.preset-btn').forEach(btn => {
-                    btn.classList.remove('border-cyan-500', 'bg-cyan-950/20');
-                    btn.classList.add('border-slate-800');
-                });
-                
-                // Highlight το επιλεγμένο button
-                event.currentTarget.classList.remove('border-slate-800');
-                event.currentTarget.classList.add('border-cyan-500', 'bg-cyan-950/20');
-            }
-        }
+        // Η βάση δεδομένων με τις οδηγίες για το ύφος
+        const tonePrompts = {
+            "professional": "Maintain a highly professional, academic, and objective tone. Avoid fluff and be direct.",
+            "educational": "Adopt an educational and encouraging tone. Explain the underlying principles of the solution so the reader learns the 'why' behind it.",
+            "creative": "Be highly engaging, creative, and enthusiastic. Use vivid descriptions, metaphors, and punchy hooks.",
+            "minimalist": "Provide minimal, concise explanations. Focus purely on immediate, actionable solutions with zero wordiness."
+        };
 
-        // Συνάρτηση "γέφυρα" για τη δημιουργία του τελικού prompt
-        function compilePrompt() {
-            const goal = document.getElementById('goal').value.trim();
-            const tone = document.getElementById('tone').value.trim();
+        function generatePrompt() {
+            const role = document.getElementById('roleSelect').value;
+            const tone = document.getElementById('toneSelect').value;
+            const task = document.getElementById('taskInput').value.trim();
 
-            if (!goal || !tone) {
-                alert("Please fill in or select a Role Preset before compiling!");
+            if (task === "") {
+                alert("ERROR: Empty task buffer. Please enter instructions.");
                 return;
             }
 
-            const compiled = `# SYSTEM INSTRUCTIONS: AI EXPERT AGENT
+            // Σύνθεση του τελικού prompt
+            const finalPrompt = `[SYSTEM INSTRUCTION]
+${systemPrompts[role]}
+${tonePrompts[tone]}
+
+[CORE TASK]
+${task}
+
+[OUTPUT RULES]
+Deliver the response in a highly structured format matching the system instructions above.`;
+
+            // Εμφάνιση του κειμένου στην οθόνη
+            document.getElementById('outputPrompt').textContent = finalPrompt;
             
-## 1. IDENTITY & ROLE
-You are a world-class specialist trained to act as a:
-- ${goal}
-
-## 2. GOAL & MISSION
-Your absolute objective is to:
-- Deliver top-tier, ready-to-use output that fulfills the user's brief perfectly on the first try.
-- Adopt the following specific professional stance and focus areas: ${goal}
-
-## 3. TONE & STYLE GUIDELINES
-Maintain these stylistic patterns in all responses:
-- ${tone}
-- Be direct, highly structured, and avoid filler or unnecessary meta-commentary (e.g., do not say "Sure, I can help you with that").
-
-## 4. OUTPUT FORMAT
-Unless instructed otherwise by the user:
-- Use markdown (headings, bold text, bullet points) to optimize readability.
-- Prioritize high-impact, professional-grade language.`;
-
-            document.getElementById('output').value = compiled.replace(/^[ ]+/gm, ''); // Καθαρίζει τα κενά αριστερά
+            // Εμφάνιση όλης της ενότητας του αποτελέσματος
+            document.getElementById('outputSection').style.display = 'block';
+            document.getElementById('copyBtn').textContent = "COPY_TO_CLIPBOARD";
+            
+            // Ομαλό scrolling προς τα κάτω για να φανεί το αποτέλεσμα
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Αντιγραφή στο Clipboard
         function copyToClipboard() {
-            const outputText = document.getElementById('output');
-            if (!outputText.value) return;
+            const promptText = document.getElementById('outputPrompt').textContent;
 
-            outputText.select();
-            document.execCommand('copy');
-            alert('System prompt copied to clipboard!');
+            // Χρήση του Clipboard API του browser
+            navigator.clipboard.writeText(promptText).then(() => {
+                const copyBtn = document.getElementById('copyBtn');
+                copyBtn.textContent = "COPIED_SUCCESSFULLY!";
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
         }
     </script>
 </body>
