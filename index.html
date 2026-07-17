@@ -224,6 +224,8 @@
             <div class="form-group">
                 <label for="roleSelect">01_SELECT_SYSTEM_ROLE</label>
                 <select id="roleSelect">
+                    <!-- Crypto Role -->
+                    <option value="crypto-analyst">📊 Crypto Trading & Quantitative Analyst (For bot code, strategies & risk models)</option>
                     <!-- Tech & Development Roles -->
                     <option value="expert-coder">💻 Expert Software Engineer (For clean, efficient & documented code)</option>
                     <option value="business-analyst">📊 Business Analyst (For functional requirements & Agile User Stories)</option>
@@ -255,7 +257,7 @@
             <!-- Πλαίσιο Εισαγωγής Θέματος -->
             <div class="form-group">
                 <label for="taskInput">03_INPUT_CORE_TASK</label>
-                <textarea id="taskInput" placeholder="Enter task instructions here (e.g., 'Explain the difference between AC and DC electricity', 'Write a python script to parse a JSON file')"></textarea>
+                <textarea id="taskInput" placeholder="Enter task instructions here (e.g., 'Analyze the profit potential of a 0.5% grid step vs 1% grid step on high volatility pairs', 'Write a node.js function to handle trailing stop-loss values')"></textarea>
             </div>
 
             <!-- Κουμπί Παραγωγής -->
@@ -280,6 +282,7 @@
     <script>
         // Η βάση δεδομένων με τα System Prompts ανάλογα με τον ρόλο
         const systemPrompts = {
+            "crypto-analyst": "You are an expert Crypto Trading Systems and Quantitative Analyst. You specialize in algorithmic trading strategies, grid bots, automated risk management frameworks, order execution optimization, exchange API integrations, and tokenomics math. Provide solutions with an emphasis on market mechanics, capital protection, and math-driven efficiencies.",
             "expert-coder": "You are an elite Software Engineer with decades of experience. Your code is production-ready, highly optimized, secure, and adheres to best practices. Always include concise comments and explain your logic.",
             "business-analyst": "You are a Senior Business Analyst in an enterprise IT environment. Your job is to translate complex business needs into clear, structured requirements, functional specifications, and detailed Agile User Stories with precise Acceptance Criteria.",
             "qa-engineer": "You are an expert QA Automation Engineer. You excel at identifying edge cases, writing comprehensive testing strategies, generating automated test scripts (JUnit, Playwright, Selenium), and drafting manual test cases.",
