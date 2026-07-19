@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Prompt Craft // BRUTALIST_EDITION</title>
+    <title>AI Prompt Craft // Terminal</title>
     <style>
         :root {
-            --bg-color: #ffffff;
-            --accent-yellow: #ffeb3b;
-            --text-main: #000000;
-            --border-color: #000000;
+            --bg-color: #05070f;
+            --card-bg: rgba(13, 20, 38, 0.6);
+            --accent-neon: #00ffc4;
+            --accent-blue: #00d2ff;
+            --text-main: #e2e8f0;
+            --text-muted: #64748b;
+            --border-color: #1e293b;
         }
 
         body {
-            font-family: 'Arial Black', Gadget, sans-serif;
+            font-family: 'Courier New', Courier, monospace;
             background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(0, 255, 196, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 210, 255, 0.05) 0px, transparent 50%);
             color: var(--text-main);
             margin: 0;
             padding: 0;
@@ -26,21 +32,27 @@
         header {
             padding: 40px 20px;
             text-align: center;
-            border-bottom: 4px solid var(--border-color);
-            background: var(--accent-yellow);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            background: rgba(5, 7, 15, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
         }
 
         header h1 {
             margin: 0;
+            color: var(--accent-neon);
+            text-shadow: 0 0 15px rgba(0, 255, 196, 0.4);
+            letter-spacing: 2px;
+            font-weight: 900;
             font-size: 2.5rem;
-            letter-spacing: -1px;
-            text-transform: uppercase;
         }
 
         header p {
             margin: 10px 0 0 0;
+            color: var(--accent-blue);
             font-size: 0.95rem;
-            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(0, 210, 255, 0.3);
         }
 
         .container {
@@ -49,12 +61,16 @@
             padding: 0 20px;
             flex-grow: 1;
             width: 100%;
+            box-sizing: border-box;
         }
 
         .form-card {
-            background-color: #f4f4f4;
-            border: 4px solid var(--border-color);
+            background-color: var(--card-bg);
+            border-radius: 16px;
             padding: 35px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
         .form-group {
@@ -65,53 +81,78 @@
         }
 
         label {
-            font-weight: 900;
+            font-weight: bold;
+            color: var(--accent-blue);
             font-size: 0.9rem;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
 
         select, textarea {
-            background-color: #ffffff;
+            background-color: rgba(5, 7, 15, 0.8);
             color: var(--text-main);
-            border: 3px solid var(--border-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             padding: 14px;
             font-size: 0.95rem;
             font-family: inherit;
-            font-weight: bold;
             outline: none;
+            transition: all 0.3s ease;
+        }
+
+        select:focus, textarea:focus {
+            border-color: var(--accent-neon);
+            box-shadow: 0 0 10px rgba(0, 255, 196, 0.2);
         }
 
         textarea {
             resize: vertical;
             min-height: 120px;
+            line-height: 1.5;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='%2300ffc4' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
         }
 
         .btn {
-            background: var(--accent-yellow);
-            color: var(--text-main);
-            border: 4px solid var(--border-color);
+            background: transparent;
+            color: var(--accent-neon);
+            border: 1px solid var(--accent-neon);
             padding: 16px 20px;
             font-size: 1.1rem;
-            font-weight: 900;
+            font-weight: bold;
             font-family: inherit;
+            letter-spacing: 2px;
             text-transform: uppercase;
+            border-radius: 8px;
             cursor: pointer;
+            transition: all 0.3s ease;
             width: 100%;
             margin-top: 10px;
+            box-shadow: 0 0 10px rgba(0, 255, 196, 0.1);
         }
 
         .btn:hover {
-            background-color: var(--text-main);
-            color: #ffffff;
+            background-color: var(--accent-neon);
+            color: var(--bg-color);
+            box-shadow: 0 0 20px rgba(0, 255, 196, 0.4);
         }
 
         .output-container {
             margin-top: 35px;
             display: none;
-            background-color: #ffffff;
-            border: 4px solid var(--border-color);
+            background-color: rgba(5, 7, 15, 0.9);
+            border: 1px solid var(--accent-blue);
+            border-radius: 8px;
+            position: relative;
             padding: 25px;
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.15);
         }
 
         .output-header {
@@ -119,48 +160,53 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
-            border-bottom: 2px solid var(--border-color);
+            border-bottom: 1px dashed var(--border-color);
             padding-bottom: 10px;
         }
 
         .output-title {
-            font-weight: 900;
+            color: var(--accent-blue);
+            font-weight: bold;
             font-size: 0.85rem;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
         }
 
         .copy-btn {
             background-color: transparent;
-            color: var(--text-main);
-            border: 2px solid var(--border-color);
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
             padding: 6px 14px;
             font-size: 0.8rem;
             font-family: inherit;
-            font-weight: bold;
+            border-radius: 4px;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         .copy-btn:hover {
-            background-color: var(--text-main);
-            color: #ffffff;
+            background-color: var(--accent-blue);
+            color: var(--bg-color);
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
         }
 
         #outputPrompt {
             white-space: pre-wrap;
             font-family: 'Courier New', Courier, monospace;
             line-height: 1.6;
+            color: #cbd5e1;
             margin: 0;
             font-size: 0.9rem;
-            font-weight: bold;
         }
 
         footer {
+            background-color: rgba(5, 7, 15, 0.9);
+            color: var(--text-muted);
             text-align: center;
             padding: 25px;
-            border-top: 4px solid var(--border-color);
-            font-weight: 900;
+            border-top: 1px solid var(--border-color);
             font-size: 0.8rem;
-            text-transform: uppercase;
+            letter-spacing: 1px;
         }
     </style>
 </head>
@@ -174,43 +220,53 @@
     <div class="container">
         <div class="form-card">
 
+            <!-- Επιλογή Ρόλου -->
             <div class="form-group">
                 <label for="roleSelect">01_SELECT_SYSTEM_ROLE</label>
                 <select id="roleSelect">
-                    <option value="policy-officer">🇪🇺 Policy Officer (European Commission standards)</option>
-                    <option value="gov-comms">🏛️ Institutional Communications (Government/State)</option>
-                    <option value="crypto-analyst">📊 Crypto Trading & Quantitative Analyst</option>
-                    <option value="expert-coder">💻 Expert Software Engineer</option>
-                    <option value="business-analyst">📊 Business Analyst</option>
-                    <option value="qa-engineer">🧪 QA Automation Engineer</option>
-                    <option value="devops-engineer">☁️ DevOps Engineer</option>
-                    <option value="scrum-master">🔄 Scrum Master</option>
-                    <option value="communication-strategist">📢 Communication Strategist</option>
-                    <option value="presales-writer">💼 Presales Writer</option>
-                    <option value="content-writer">✍️ Content Writer</option>
-                    <option value="creative-copywriter">🎨 Creative Copywriter</option>
-                    <option value="debate-coach">🗣️ World-Class Debate Coach</option>
-                    <option value="general">🤖 General AI</option>
+                    <!-- Government & Institutional Roles -->
+                    <option value="policy-officer">🇪🇺 Policy Officer (European Commission standards, regulatory analysis & policy drafting)</option>
+                    <option value="gov-comms">🏛️ Institutional Communications (Government/State messaging, public relations & crisis comms)</option>
+                    <!-- Crypto Role -->
+                    <option value="crypto-analyst">📊 Crypto Trading & Quantitative Analyst (For bot code, strategies & risk models)</option>
+                    <!-- Tech & Development Roles -->
+                    <option value="expert-coder">💻 Expert Software Engineer (For clean, efficient & documented code)</option>
+                    <option value="business-analyst">📊 Business Analyst (For functional requirements & Agile User Stories)</option>
+                    <option value="qa-engineer">🧪 QA Automation Engineer (For test strategies & automated scripting)</option>
+                    <option value="devops-engineer">☁️ DevOps Engineer (For cloud deployment, pipelines & virtualization)</option>
+                    <option value="scrum-master">🔄 Scrum Master (For Agile facilitation & sprint planning)</option>
+                    <!-- Corporate & Agency Roles -->
+                    <option value="communication-strategist">📢 Communication Strategist (For PR concepts, brand positioning & campaign timelines)</option>
+                    <option value="presales-writer">💼 Presales Writer (For high-conversion commercial offers & RFP responses)</option>
+                    <option value="content-writer">✍️ Content Writer (For SEO articles, engaging guides & brand authority)</option>
+                    <option value="creative-copywriter">🎨 Creative Copywriter (For viral marketing copy, hooks & powerful CTAs)</option>
+                    <!-- Core Roles -->
+                    <option value="debate-coach">🗣️ World-Class Debate Coach (For argument analysis, rebuttals & strategy)</option>
+                    <option value="general">🤖 General AI (Standard versatile assistant)</option>
                 </select>
             </div>
 
+            <!-- Επιλογή Ύφους -->
             <div class="form-group">
                 <label for="toneSelect">02_CHOOSE_OUTPUT_STYLE</label>
                 <select id="toneSelect">
                     <option value="professional">Professional, formal and direct</option>
-                    <option value="educational">Educational, explaining "why"</option>
-                    <option value="creative">Creative, highly engaging</option>
-                    <option value="minimalist">Minimalist, straight to the point</option>
+                    <option value="educational">Educational, explaining "why" behind concepts</option>
+                    <option value="creative">Creative, highly engaging and expressive</option>
+                    <option value="minimalist">Minimalist, straight to the point without fluff</option>
                 </select>
             </div>
 
+            <!-- Πλαίσιο Εισαγωγής Θέματος -->
             <div class="form-group">
                 <label for="taskInput">03_INPUT_CORE_TASK</label>
                 <textarea id="taskInput" placeholder="Enter task instructions here..."></textarea>
             </div>
 
+            <!-- Κουμπί Παραγωγής -->
             <button class="btn" onclick="generatePrompt()">COMPILE_PROMPT_</button>
 
+            <!-- Περιοχή Εμφάνισης Αποτελέσματος -->
             <div class="output-container" id="outputSection">
                 <div class="output-header">
                     <span class="output-title">OUTPUT_BUFFER:</span>
@@ -228,19 +284,19 @@
 
     <script>
         const systemPrompts = {
-            "policy-officer": "You are a Policy Officer for the European Commission. Your language is formal, precise, and objective. You specialize in regulatory compliance, EU legislative frameworks, stakeholder engagement, and impact assessments.",
-            "gov-comms": "You are an expert in Institutional Communications for Government and State organizations. Your tone is authoritative, reassuring, and transparent. You excel at drafting official announcements, public service messaging, and crisis management communication.",
-            "crypto-analyst": "You are an expert Crypto Trading Systems and Quantitative Analyst. You specialize in algorithmic trading strategies, grid bots, automated risk management frameworks, order execution optimization, exchange API integrations, and tokenomics math.",
-            "expert-coder": "You are an elite Software Engineer with decades of experience. Your code is production-ready, highly optimized, secure, and adheres to best practices.",
-            "business-analyst": "You are a Senior Business Analyst in an enterprise IT environment. Your job is to translate complex business needs into clear, structured requirements, functional specifications, and detailed Agile User Stories.",
-            "qa-engineer": "You are an expert QA Automation Engineer. You excel at identifying edge cases, writing comprehensive testing strategies, generating automated test scripts, and drafting manual test cases.",
-            "devops-engineer": "You are a seasoned DevOps & Cloud Infrastructure Engineer. Your expertise lies in writing secure Dockerfiles, Kubernetes manifests, CI/CD pipelines, and automating cloud deployments.",
-            "scrum-master": "You are an experienced Agile Scrum Master. Your mission is to facilitate sprint planning, resolve team bottlenecks, structure retrospectives, and optimize team velocity.",
-            "communication-strategist": "You are a senior Communication Strategist at a top-tier agency. Your job is to design comprehensive communication blueprints, position brands with precision, and structure clear campaign timelines.",
-            "presales-writer": "You are a highly skilled Presales Writer. Your goal is to draft commercial offers, persuasive sales letters, RFP replies, and proposal structures that maximize conversion rate.",
-            "content-writer": "You are an experienced Content Writer specializing in SEO and high-retention copy. You produce thoroughly-researched, authoritative blog articles and newsletters.",
-            "creative-copywriter": "You are an elite Creative Copywriter. You excel at drafting high-converting social media posts, catchy landing page copy, and headlines using AIDA and PAS frameworks.",
-            "debate-coach": "You are a world-class Debate Coach and tournament-winning adjudicator. Analyze inputs through a critical lens, identify logical fallacies, and construct strong counter-arguments.",
+            "policy-officer": "You are a Policy Officer for the European Commission. Your language is formal, precise, and objective. You specialize in regulatory compliance, EU legislative frameworks, stakeholder engagement, and impact assessments. Ensure all outputs are aligned with EU directives and standards.",
+            "gov-comms": "You are an expert in Institutional Communications for Government and State organizations. Your tone is authoritative, reassuring, and transparent. You excel at drafting official announcements, public service messaging, crisis management communication, and maintaining institutional credibility.",
+            "crypto-analyst": "You are an expert Crypto Trading Systems and Quantitative Analyst. You specialize in algorithmic trading strategies, grid bots, automated risk management frameworks, order execution optimization, exchange API integrations, and tokenomics math. Provide solutions with an emphasis on market mechanics, capital protection, and math-driven efficiencies.",
+            "expert-coder": "You are an elite Software Engineer with decades of experience. Your code is production-ready, highly optimized, secure, and adheres to best practices. Always include concise comments and explain your logic.",
+            "business-analyst": "You are a Senior Business Analyst in an enterprise IT environment. Your job is to translate complex business needs into clear, structured requirements, functional specifications, and detailed Agile User Stories with precise Acceptance Criteria.",
+            "qa-engineer": "You are an expert QA Automation Engineer. You excel at identifying edge cases, writing comprehensive testing strategies, generating automated test scripts (JUnit, Playwright, Selenium), and drafting manual test cases.",
+            "devops-engineer": "You are a seasoned DevOps & Cloud Infrastructure Engineer. Your expertise lies in writing secure Dockerfiles, Kubernetes manifests, CI/CD pipelines (Jenkins, GitLab, GitHub Actions), and automating cloud deployments with a security-first mindset.",
+            "scrum-master": "You are an experienced Agile Scrum Master. Your mission is to facilitate sprint planning, resolve team bottlenecks, structure retrospectives, and optimize team velocity using standard Agile best practices.",
+            "communication-strategist": "You are a senior Communication Strategist at a top-tier agency. Your job is to design comprehensive communication blueprints, position brands with precision, structure clear campaign timelines, and employ frameworks like SWOT and audience persona breakdowns.",
+            "presales-writer": "You are a highly skilled Presales Writer. Your goal is to draft commercial offers, persuasive sales letters, RFP replies, and proposal structures that maximize conversion rate, highlighting strong unique selling points (USPs) and security features.",
+            "content-writer": "You are an experienced Content Writer specializing in SEO and high-retention copy. You produce thoroughly-researched, authoritative blog articles, newsletters, and engaging guides structured with logical headers and clear introductory hooks.",
+            "creative-copywriter": "You are an elite Creative Copywriter. You excel at drafting high-converting social media posts (LinkedIn, IG), catchy landing page copy, and headlines. You use classic frameworks like AIDA and PAS to prompt swift user engagement and actions.",
+            "debate-coach": "You are a world-class Debate Coach and tournament-winning adjudicator. Analyze inputs through a critical lens. Identify logical fallacies, construct strong counter-arguments, and offer tactical advice on strategy and persuasion.",
             "general": "You are a highly capable, objective, and helpful AI assistant."
         };
 
