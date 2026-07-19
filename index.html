@@ -224,6 +224,9 @@
             <div class="form-group">
                 <label for="roleSelect">01_SELECT_SYSTEM_ROLE</label>
                 <select id="roleSelect">
+                    <!-- Government & Institutional Roles -->
+                    <option value="policy-officer">🇪🇺 Policy Officer (European Commission standards, regulatory analysis & policy drafting)</option>
+                    <option value="gov-comms">🏛️ Institutional Communications (Government/State messaging, public relations & crisis comms)</option>
                     <!-- Crypto Role -->
                     <option value="crypto-analyst">📊 Crypto Trading & Quantitative Analyst (For bot code, strategies & risk models)</option>
                     <!-- Tech & Development Roles -->
@@ -257,7 +260,7 @@
             <!-- Πλαίσιο Εισαγωγής Θέματος -->
             <div class="form-group">
                 <label for="taskInput">03_INPUT_CORE_TASK</label>
-                <textarea id="taskInput" placeholder="Enter task instructions here (e.g., 'Analyze the profit potential of a 0.5% grid step vs 1% grid step on high volatility pairs', 'Write a node.js function to handle trailing stop-loss values')"></textarea>
+                <textarea id="taskInput" placeholder="Enter task instructions here..."></textarea>
             </div>
 
             <!-- Κουμπί Παραγωγής -->
@@ -280,8 +283,9 @@
     </footer>
 
     <script>
-        // Η βάση δεδομένων με τα System Prompts ανάλογα με τον ρόλο
         const systemPrompts = {
+            "policy-officer": "You are a Policy Officer for the European Commission. Your language is formal, precise, and objective. You specialize in regulatory compliance, EU legislative frameworks, stakeholder engagement, and impact assessments. Ensure all outputs are aligned with EU directives and standards.",
+            "gov-comms": "You are an expert in Institutional Communications for Government and State organizations. Your tone is authoritative, reassuring, and transparent. You excel at drafting official announcements, public service messaging, crisis management communication, and maintaining institutional credibility.",
             "crypto-analyst": "You are an expert Crypto Trading Systems and Quantitative Analyst. You specialize in algorithmic trading strategies, grid bots, automated risk management frameworks, order execution optimization, exchange API integrations, and tokenomics math. Provide solutions with an emphasis on market mechanics, capital protection, and math-driven efficiencies.",
             "expert-coder": "You are an elite Software Engineer with decades of experience. Your code is production-ready, highly optimized, secure, and adheres to best practices. Always include concise comments and explain your logic.",
             "business-analyst": "You are a Senior Business Analyst in an enterprise IT environment. Your job is to translate complex business needs into clear, structured requirements, functional specifications, and detailed Agile User Stories with precise Acceptance Criteria.",
@@ -296,7 +300,6 @@
             "general": "You are a highly capable, objective, and helpful AI assistant."
         };
 
-        // Η βάση δεδομένων με τις οδηγίες για το ύφος
         const tonePrompts = {
             "professional": "Maintain a highly professional, academic, and objective tone. Avoid fluff and be direct.",
             "educational": "Adopt an educational and encouraging tone. Explain the underlying principles of the solution so the reader learns the 'why' behind it.",
@@ -314,7 +317,6 @@
                 return;
             }
 
-            // Σύνθεση του τελικού prompt
             const finalPrompt = `[SYSTEM INSTRUCTION]
 ${systemPrompts[role]}
 ${tonePrompts[tone]}
@@ -325,21 +327,14 @@ ${task}
 [OUTPUT RULES]
 Deliver the response in a highly structured format matching the system instructions above.`;
 
-            // Εμφάνιση του κειμένου στην οθόνη
             document.getElementById('outputPrompt').textContent = finalPrompt;
-            
-            // Εμφάνιση όλης της ενότητας του αποτελέσματος
             document.getElementById('outputSection').style.display = 'block';
             document.getElementById('copyBtn').textContent = "COPY_TO_CLIPBOARD";
-            
-            // Ομαλό scrolling προς τα κάτω για να φανεί το αποτέλεσμα
             document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
         }
 
         function copyToClipboard() {
             const promptText = document.getElementById('outputPrompt').textContent;
-
-            // Χρήση του Clipboard API του browser
             navigator.clipboard.writeText(promptText).then(() => {
                 const copyBtn = document.getElementById('copyBtn');
                 copyBtn.textContent = "COPIED_SUCCESSFULLY!";
